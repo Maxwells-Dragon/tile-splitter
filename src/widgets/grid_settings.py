@@ -49,8 +49,9 @@ class GridSettingsWidget(QWidget):
         self._tile_height.setSuffix(" px")
         self._tile_height.valueChanged.connect(self._on_setting_changed)
 
+        size_layout.addWidget(QLabel("W:"))
         size_layout.addWidget(self._tile_width)
-        size_layout.addWidget(QLabel("x"))
+        size_layout.addWidget(QLabel("H:"))
         size_layout.addWidget(self._tile_height)
         form_layout.addRow("Tile Size:", size_layout)
 
@@ -68,8 +69,9 @@ class GridSettingsWidget(QWidget):
         self._sep_y.setSuffix(" px")
         self._sep_y.valueChanged.connect(self._on_setting_changed)
 
+        sep_layout.addWidget(QLabel("X:"))
         sep_layout.addWidget(self._sep_x)
-        sep_layout.addWidget(QLabel("x"))
+        sep_layout.addWidget(QLabel("Y:"))
         sep_layout.addWidget(self._sep_y)
         form_layout.addRow("Separator:", sep_layout)
 
@@ -87,8 +89,9 @@ class GridSettingsWidget(QWidget):
         self._offset_y.setSuffix(" px")
         self._offset_y.valueChanged.connect(self._on_setting_changed)
 
+        offset_layout.addWidget(QLabel("X:"))
         offset_layout.addWidget(self._offset_x)
-        offset_layout.addWidget(QLabel("x"))
+        offset_layout.addWidget(QLabel("Y:"))
         offset_layout.addWidget(self._offset_y)
         form_layout.addRow("Offset:", offset_layout)
 

@@ -59,6 +59,51 @@ LICENSE_PATTERNS = {
     "ofl": ([], "SIL Open Font License"),
 }
 
+# License name to canonical URL mapping
+LICENSE_URLS = {
+    "CC0": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "Public Domain": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "Public Domain (CC0)": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "Unlicense (Public Domain)": "https://unlicense.org/",
+    "CC BY 4.0": "https://creativecommons.org/licenses/by/4.0/",
+    "CC BY 3.0": "https://creativecommons.org/licenses/by/3.0/",
+    "CC BY-SA": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "CC BY-SA 4.0": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "CC BY-SA 3.0": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "CC BY-NC": "https://creativecommons.org/licenses/by-nc/4.0/",
+    "CC BY-NC-SA": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "CC BY-NC-ND": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+    "CC BY-ND": "https://creativecommons.org/licenses/by-nd/4.0/",
+    "MIT License": "https://opensource.org/licenses/MIT",
+    "Apache License": "https://www.apache.org/licenses/LICENSE-2.0",
+    "BSD License": "https://opensource.org/licenses/BSD-3-Clause",
+    "GPL": "https://www.gnu.org/licenses/gpl-3.0.html",
+    "LGPL": "https://www.gnu.org/licenses/lgpl-3.0.html",
+    "SIL Open Font License": "https://scripts.sil.org/OFL",
+}
+
+
+def get_license_url(license_name: str) -> str:
+    """Get canonical URL for a license name.
+
+    Args:
+        license_name: License name (e.g., "CC0", "CC BY 4.0")
+
+    Returns:
+        URL string, or empty string if not found
+    """
+    # Direct lookup
+    if license_name in LICENSE_URLS:
+        return LICENSE_URLS[license_name]
+
+    # Try case-insensitive lookup
+    name_lower = license_name.lower()
+    for key, url in LICENSE_URLS.items():
+        if key.lower() == name_lower:
+            return url
+
+    return ""
+
 
 @dataclass
 class LicenseInfo:

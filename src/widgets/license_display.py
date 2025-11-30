@@ -10,7 +10,7 @@ from PySide6.QtWidgets import (
     QDialog, QDialogButtonBox, QFormLayout,
 )
 
-from ..models import LicenseInfo, LicenseWarning
+from ..models import LicenseInfo, LicenseWarning, get_license_url
 
 
 class LicenseFetchWorker(QObject):
@@ -240,8 +240,9 @@ class LicenseEditDialog(QDialog):
         )
         layout.addWidget(self._warning_preview)
 
-        # Update preview when license text changes
+        # Update preview and auto-fill URL when license text changes
         self._license_text.textChanged.connect(self._update_warning_preview)
+        self._license_text.textChanged.connect(self._auto_fill_license_url)
 
         # Buttons
         buttons = QDialogButtonBox(
@@ -260,6 +261,22 @@ class LicenseEditDialog(QDialog):
         self._source_url.setText(self._license_info.source_url)
         self._fetch_url.setText(self._license_info.source_url)
         self._update_warning_preview()
+
+    def _auto_fill_license_url(self) -> None:
+        """Auto-fill license URL if license text matches a known license."""
+        license_text = self._license_text.text().strip()
+        if not license_text:
+            return
+
+        # Only auto-fill if URL is empty or was previously auto-filled
+        current_url = self._license_url.text().strip()
+        if current_url and not current_url.startswith("https://creativecommons.org") and not current_url.startswith("https://opensource.org"):
+            # User has a custom URL, don't overwrite
+            return
+
+        url = get_license_url(license_text)
+        if url:
+            self._license_url.setText(url)
 
     def _update_warning_preview(self) -> None:
         """Update the warning preview based on current license text."""
